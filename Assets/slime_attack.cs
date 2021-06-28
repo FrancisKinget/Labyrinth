@@ -28,5 +28,7 @@ public class slime_attack : MonoBehaviour
             transform.position = position;
             transform.LookAt(player.transform);
         }
+       
     }
+
 }

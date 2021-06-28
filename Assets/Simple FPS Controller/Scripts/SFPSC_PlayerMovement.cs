@@ -19,6 +19,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 // I use Physics.gravity a lot instead of Vector3.up because you can point the gravity to a different direction and i want the controller to work fine
 [RequireComponent(typeof(Rigidbody))]
@@ -26,7 +27,7 @@ public class SFPSC_PlayerMovement : MonoBehaviour
 {
     private static Vector3 vecZero = Vector3.zero;
     private Rigidbody rb;
-
+    private Animator animator;
     private bool enableMovement = true;
 
     [Header("Movement properties")]
@@ -49,6 +50,7 @@ public class SFPSC_PlayerMovement : MonoBehaviour
     private void Start()
     {
         rb = this.GetComponent<Rigidbody>();
+        animator = this.GetComponent<Animator>();
 
         TryGetWallRun();
         TryGetGrapplingHook();
@@ -109,6 +111,15 @@ public class SFPSC_PlayerMovement : MonoBehaviour
         else
             // Air control
             rb.velocity = ClampSqrMag(rb.velocity + inputForce * Time.fixedDeltaTime, rb.velocity.sqrMagnitude);
+        if (Input.GetMouseButtonDown(0))
+        {
+            animator.SetBool("IsAttacking", true);
+            Debug.Log("Click");
+        }
+        else
+        {
+            animator.SetBool("IsAttacking", false);
+        }
     }
 
     private static Vector3 ClampSqrMag(Vector3 vec, float sqrMag)
